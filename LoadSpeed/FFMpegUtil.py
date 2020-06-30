@@ -6,16 +6,16 @@ import subprocess
 
 class FFMpegUtil(object):
     def __init__(self):
-        pass
+        self.BASE_PATH=os.path.dirname(os.path.dirname(__file__))
 
-    def createFFMpehPath(self, dicname):
-        filedic = '../result/ComparaPic/' + dicname
-        if os.path.exists(filedic) == False:
-            os.makedirs(filedic)
+    def createFFMpehPath(self, dir):
+        result_path =f'{self.BASE_PATH}/result/ComparaPic/{dir}'
+        if os.path.exists(result_path) == False:
+            os.makedirs(result_path)
+        self.ConparaPicPath=result_path
 
     def getConparaPicPath(self):
-        path = os.path.dirname(os.path.realpath(__file__))
-        return path[:path.rindex('\\')] + "\Result\ComparaPic"
+        return f"{self.BASE_PATH}/Result/ComparaPic"
 
     def getFFMpegPath(self):
         path = os.path.dirname(os.path.realpath(__file__))
@@ -43,9 +43,10 @@ class FFMpegUtil(object):
         # cmd = 'ffmpeg -i %s -r 20 -f -vf fps=fps=20 %s' % (videopath, picpath) + '\%d.jpeg'
         # print self.getFFMpegPath() + cmd
         cmd=self.getFFMpegPath() + cmd
-        # os.system('"{}"'.format(cmd))
         CREATE_NO_WINDOW = 0x08000000
         subprocess.call(cmd,creationflags=CREATE_NO_WINDOW)
 
 if __name__ == '__main__':
-    pass
+    f=FFMpegUtil()
+    print(f.getResultFilePath('xx'))
+
